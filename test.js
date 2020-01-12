@@ -1,13 +1,18 @@
 import test from "ava"
-import theModule from "."
+import cssTreeify from "."
 
 test("main", (t) => {
-	t.throws(() => {
-		theModule(123)
-	}, {
-		instanceOf: TypeError,
-		message: "Expected a string, got number",
-	})
-
-	t.is(theModule("unicorns"), "unicorns & rainbows")
+	t.snapshot(cssTreeify(`
+body { font-size: 10px; }
+html { font-size: 11px; }
+html, body { font-size: 12px; }
+@media only screen and (max-width: 600px) {
+  body {
+    background-color: lightblue;
+  }
+  html {
+	  background-color: grey;
+  }
+}
+`))
 })

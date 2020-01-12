@@ -1,41 +1,58 @@
-# The module [![Travis CI Build Status](https://img.shields.io/travis/com/Richienb/the-module/master.svg?style=for-the-badge)](https://travis-ci.com/Richienb/the-module)
+# CSS Treeify [![Travis CI Build Status](https://img.shields.io/travis/com/Richienb/css-treeify/master.svg?style=for-the-badge)](https://travis-ci.com/Richienb/css-treeify)
 
-My awesome module.
+Parse the structure of CSS to an object tree.
 
-[![NPM Badge](https://nodei.co/npm/the-module.png)](https://npmjs.com/package/the-module)
+[![NPM Badge](https://nodei.co/npm/css-treeify.png)](https://npmjs.com/package/css-treeify)
 
 ## Install
 
 ```sh
-npm install the-module
+npm install css-treeify
 ```
 
 ## Usage
 
 ```js
-const theModule = require("the-module");
+const cssTreeify = require("css-treeify");
 
-theModule("unicorns");
-//=> 'unicorns & rainbows'
+cssTreeify(`
+body { font-size: 10px; }
+html { font-size: 11px; }
+html, body { font-size: 12px; }
+@media only screen and (max-width: 600px) {
+  body {
+    background-color: lightblue;
+  }
+  html {
+	  background-color: grey;
+  }
+}
+`);
+/* {
+	'@media only screen and (max-width: 600px)': {
+		body: {
+			'background-color': 'lightblue',
+		},
+		html: {
+			'background-color': 'grey',
+		},
+	},
+	body: {
+		'font-size': '12px',
+	},
+	html: {
+		'font-size': '12px',
+	},
+}
+*/
 ```
 
 ## API
 
-### theModule(input, options?)
+### cssTreeify(css)
 
-#### input
+#### css
 
 Type: `string`
 
-Lorem ipsum.
-
-#### options
-
-Type: `object`
-
-##### postfix
-
-Type: `string`\
-Default: `rainbows`
-
-Lorem ipsum.
+The CSS to parse.
