@@ -1,6 +1,6 @@
 {
 	"name": "css-treeify",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Parse the structure of CSS to an object tree.",
 	"repository": "https://github.com/Richienb/css-treeify.git",
 	"author": "Richie Bendall <richiebendall@gmail.com>",
