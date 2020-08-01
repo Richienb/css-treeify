@@ -31,18 +31,18 @@ html, body { font-size: 12px; }
 /* {
 	'@media only screen and (max-width: 600px)': {
 		body: {
-			'background-color': 'lightblue',
+			'background-color': 'lightblue'
 		},
 		html: {
-			'background-color': 'grey',
-		},
+			'background-color': 'grey'
+		}
 	},
 	body: {
-		'font-size': '12px',
+		'font-size': '12px'
 	},
 	html: {
-		'font-size': '12px',
-	},
+		'font-size': '12px'
+	}
 }
 */
 ```

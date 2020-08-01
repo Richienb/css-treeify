@@ -11,7 +11,7 @@
 		"index.d.ts"
 	],
 	"engines": {
-		"node": ">=8.3"
+		"node": ">=10"
 	},
 	"scripts": {
 		"lint": "xo",
@@ -26,18 +26,15 @@
 		"object"
 	],
 	"dependencies": {
-		"css": "^2.2.4",
-		"lodash": "^4.17.15"
+		"css": "^3.0.0",
+		"lodash": "^4.17.19"
 	},
 	"devDependencies": {
-		"ava": "^2.4.0",
-		"eslint-config-richienb": "^0.3.0",
-		"xo": "^0.25.3"
-	},
-	"resolutions": {
-		"eslint": "^6.8.0"
+		"ava": "^3.11.0",
+		"eslint-config-richienb": "^0.4.2",
+		"xo": "^0.32.1"
 	},
 	"xo": {
-		"extends": "richienb/node"
+		"extends": "richienb"
 	}
 }

@@ -1,28 +1,51 @@
 "use strict"
 
-const {
-	parse: parseCSS,
-} = require("css")
-const _ = require("lodash")
+const { parse: parseCSS } = require("css")
+const { merge, fromPairs: fromEntries } = require("lodash")
 
-const pickToObject = (array, ...keys) => _.fromPairs(array.map((val) => [val[keys[0]], val[keys[1]]]))
+/**
+Convert an array of properties and values to an object.
+@example
+```
+pickToObject([
+	{name: "a", value: "b"},
+	[name: "c", value: "d"]
+], "name", "value");
+/* => {
+	a: "b",
+	c: "d"
+} *\/
+```
+*/
+const pickToObject = (array, key, value) => fromEntries(array.map(entry => [entry[key], entry[value]]))
 
-module.exports = (css) => _.merge(...parseCSS(css).stylesheet.rules.map(({
-	declarations,
-	selectors,
-	type,
-	media,
-	rules,
-}) => {
-	if (type === "rule") return _.fromPairs(selectors.map((selector) => [selector, pickToObject(declarations, "property", "value")]))
-	if (type === "media") {
-		return _.fromPairs([
-			[`@media ${media}`, _.merge(...rules.map(({
-				selectors,
-				declarations,
-			}) => _.fromPairs(selectors.map((selector) => [selector, pickToObject(declarations, "property", "value")]))))],
-		])
+const parseSelectors = (selectors, declarations) => fromEntries(selectors.map(selector => [selector, pickToObject(declarations, "property", "value")]))
+
+module.exports = css => {
+	if (typeof css !== "string") {
+		throw new TypeError(`Expected a string, got ${typeof css}`)
 	}
 
-	return undefined
-}))
+	return merge(...parseCSS(css).stylesheet.rules.map(({
+		declarations,
+		selectors,
+		type,
+		media,
+		rules
+	}) => {
+		if (type === "rule") {
+			return parseSelectors(selectors, declarations)
+		}
+
+		if (type === "media") {
+			return {
+				[`@media: ${media}`]: merge(...rules.map(({
+					selectors,
+					declarations
+				}) => parseSelectors(selectors, declarations)))
+			}
+		}
+
+		return undefined
+	}))
+}
